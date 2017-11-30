@@ -12,7 +12,8 @@ x.extend(range(-5,6))
 lw = 1
 ylable1 = "label 1"
 ylable2 = "label 2"
-
+Ec_bulk1 = 1
+Ec_bulk2 = 2
 fig, ax1 = plt.subplots()
 fig.set_size_inches(12, 5, forward=True)
 ax1.plot(x,E_cleave,"+-k",mfc='none',linewidth = lw)
