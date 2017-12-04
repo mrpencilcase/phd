@@ -26,13 +26,12 @@ def cleave_cell(lattice,cleave_axis,cleave_d, cleave_pos, path_xyz, path_save, h
 
     if cleave_axis == "a":
         axis_index = 0
-        cleave_axis_len = np.linalg.norm(a_latt)
     elif cleave_axis == "b":
         axis_index = 1
-        cleave_axis_len = np.linalg.norm(b_latt)
+
     elif cleave_axis == "c":
         axis_index = 2
-        cleave_axis_len = np.linalg.norm(c_latt)
+
 
     # Read the xyz file of the relaxed cell.
     with open(path_xyz, "r") as data:
@@ -95,43 +94,31 @@ def cleave_cell(lattice,cleave_axis,cleave_d, cleave_pos, path_xyz, path_save, h
     # Determine unique atom positions in the cleave axis.
     c_pos = []
     c_pos_cleared = []
-    c_pos_dummy = []
+    c_pos_dummy_f = []
+    c_pos_dummy_e = []
     c_pos_final = []
     for el_pos in at_pos:
         for pos in el_pos:
             if pos[axis_index] not in c_pos:
                 c_pos.append(pos[axis_index])
     c_pos.sort()
-    print(c_pos)
-    print(len(c_pos))
 
+    # Compare postion one with all other and ignore all in range
+    # Make new array and compare again first entry with all other to find entries range
+    # If none are found look at the second entry and look for entries in range
+    # Make new array without entries in range of second entrie.
     i = 0
     while i < len(c_pos):
-        c_pos_dummy.append(c_pos[i])
-        j = i + 1
-        while j < len(c_pos):
-            if c_pos[i]+0.02*cleave_axis_len < c_pos[j]:
-                c_pos_dummy.append(c_pos[j])
-
+       # Fill dummy array with the already cleared entries
+       for j in range(i):
+            c_pos_dummy_f.append(c_pos[j])
             j += 1
-        c_pos_final.append(c_pos[i])
-        c_pos = c_pos_dummy
-        c_pos_dummy = []
-        i += 1
-    print(c_pos_final)
-    for i in range(1,len(c_pos)):
-        for pos in c_pos:
-#            print(c_pos[i])
-#            print(pos)
 
-#            print(c_pos[i] != pos )
-#            print(c_pos.index(pos))
-#            print( i > c_pos.index(pos))
-            if c_pos[i]+0.02*cleave_axis_len > pos and c_pos[i] != pos and i > c_pos.index(pos):
-                c_pos_dummy.append(c_pos.index(pos))
 
-    print(len(c_pos))
-    print(cleave_pos)
+
+
+
+
     if cleave_pos > len(c_pos_final):
         print("The postion of the cleave is not in the super cell. \n"
               "Please change the postions and start the script again."
@@ -162,9 +149,9 @@ def cleave_cell(lattice,cleave_axis,cleave_d, cleave_pos, path_xyz, path_save, h
     with open(path_save,"w") as file:
         file.write(header+"\n")
         file.write("1\n")
-        file.write("{:6.4f}      {:6.4f}      {:6.4f}\n".format(a_latt[0], a_latt[1], a_latt[2]))
-        file.write("{:6.4f}      {:6.4f}      {:6.4f}\n".format(b_latt[0], b_latt[1], b_latt[2]))
-        file.write("{:6.4f}      {:6.4f}      {:6.4f}\n".format(c_latt[0], c_latt[1], c_latt[2]))
+        file.write("{:6.4f}      {:6.4f}      {:6.4f}\n".format(x_cell, 0, 0))
+        file.write("{:6.4f}      {:6.4f}      {:6.4f}\n".format(0, y_cell, 0))
+        file.write("{:6.4f}      {:6.4f}      {:6.4f}\n".format(0, 0, z_cell))
         file.write("    ".join(elements)+"\n")
         file.write("    ".join(len_pos)+"\n")
         file.write("Direct\n")
