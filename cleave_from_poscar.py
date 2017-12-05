@@ -67,27 +67,29 @@ def cleave_cell(cleave_axis, cleave_d, cleave_pos, path_open, path_save):
         if at_pos[i][axis_index] > c_pos[cleave_pos - 1]+ delta_c:
             at_pos[i][axis_index] += cleave_d
 
+    el_num_str = []
+    for num in ele_num:
+        el_num_str.append(str(num))
+
     with open(path_save,"w") as file:
         file.write(supercell[0])
         file.write(supercell[1])
         for vec in [a_lattice,b_lattice,c_lattice]:
             file.write("{:7.4f}  {:7.4f}  {:7.4f}\n".format(vec[0], vec[1], vec[2]))
         file.write("    ".join(ele_type) + "\n")
-        file.write("    ".join(str(ele_num)) + "\n")
+        file.write("  ".join(el_num_str) + "\n")
         file.write("Cartesian\n")
         for pos in at_pos:
             file.write("{:7.4f}  {:7.4f}  {:7.4f}\n".format(pos[0],pos[1],pos[2]))
 
-
 def main():
-    path_open = "/home/lukas/documents/thesis/Structures/CONTCAR_test.vasp"
+    path_open = "/home/lukas/documents/thesis/Structures/afCrNTiN_110.vasp"
 
-    dir_save = "/home/lukas/documents/thesis/Structures/"
-    filename = "test.vast"
-    cleave_axis = "a"
+    dir_save = "/home/lukas/documents/thesis/Structures/CrNTiN_cleaved/afCrNTiN_110/"
+    filename = "afCrNTiN"
+    cleave_axis = "b"
     cleave_x = 20  # length of the created gap (between 1 and number of planes)
-    cleave_positions = [1, 3, 6, 9, 11]  # position of the gap
-    cleave_positions = [6]
+    cleave_positions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]  # position of the gap
 
     for cleave_pos in cleave_positions:
         filename_full = filename + "_c{}.vasp".format(cleave_pos)
