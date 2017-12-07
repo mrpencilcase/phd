@@ -2,16 +2,20 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+path_open = ""
+e_relaxed = 3
+n_at = 3
+x = []
+e_cleave = []
 
-E_cleave = 10*np.random.random_sample(11)+10
-d1 = 1*np.random.random_sample(11)+1
-d2 = 1*np.random.random_sample(11)+1
-x =  []
-x.extend(range(-5,6))
+with open(path_open,"r") as file:
+    data = list(file)
+
+
 
 lw = 1
-ylable1 = "label 1"
-ylable2 = "label 2"
+y_lable1 = "label 1"
+y_lable2 = "label 2"
 Ec_bulk1 = 1
 Ec_bulk2 = 2
 fig, ax1 = plt.subplots()

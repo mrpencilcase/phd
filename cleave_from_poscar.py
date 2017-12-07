@@ -83,19 +83,26 @@ def cleave_cell(cleave_axis, cleave_d, cleave_pos, path_open, path_save):
             file.write("{:7.4f}  {:7.4f}  {:7.4f}\n".format(pos[0],pos[1],pos[2]))
 
 def main():
-    path_open = "/home/lukas/documents/thesis/Structures/afCrNTiN_110.vasp"
+    path_open = "/home/lukas/documents/thesis/Structures/afCrNTiN_1-10.vasp"
 
-    dir_save = "/home/lukas/documents/thesis/Structures/CrNTiN_cleaved/afCrNTiN_110/"
-    filename = "afCrNTiN"
-    cleave_axis = "b"
-    cleave_x = 20  # length of the created gap (between 1 and number of planes)
+    dir_save_b = "/home/lukas/documents/thesis/Structures/CrNTiN_cleaved/afCrNTiN_1-10/"
+    filename = "POSCAR"
+    cleave_axis = "a"
+    # length of the created gap (between 1 and number of planes)
     cleave_positions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]  # position of the gap
+    cleave_distances = [0.2,0.4,0.6,0.8,1,1.2,1.4,1.6,1.8,2,2.5,3,3.5,4,4.5,5]
 
-    for cleave_pos in cleave_positions:
-        filename_full = filename + "_c{}.vasp".format(cleave_pos)
-        path_save = os.path.join(dir_save, filename_full)
-        cleave_cell(cleave_axis, cleave_x, cleave_pos,
-                    path_open, path_save)
+    for cleave_d in cleave_distances:
+        for cleave_pos in cleave_positions:
+            dir_save = os.path.join(dir_save_b,"{}".format(cleave_pos))
+            dis_str = str(cleave_d)
+            if "." in dis_str:
+                dis_str.replace(".","")
+
+            filename_full = filename + "_p{}_d{}.vasp".format(cleave_pos,dis_str)
+            path_save = os.path.join(dir_save, filename_full)
+            cleave_cell(cleave_axis, cleave_d, cleave_pos,
+                        path_open, path_save)
 
 
 if __name__ == "__main__":
