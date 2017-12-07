@@ -20,13 +20,13 @@ class Cell:
             self.elements.append(atom.element)
 
     def set_scale(self,scaling_factor):
-        self.scale = scaling_factor
+        self.scale = float(scaling_factor)
 
     def set_info(self,information):
-        self.info = information
+        self.info = information.rstrip()
 
     def set_format(self,format):
-        self.info = format
+        self.info = format.rstrip()
 
 class Lattice:
 
@@ -49,3 +49,12 @@ class Atom:
     def __init__(self,element,position):
         self.element = element
         self.position = element
+
+class Elements:
+    def __init__(self):
+        self.element_type = []
+        self.element_amount = []
+
+    def add_element(self,type,amount):
+        self.element_type.append(type)
+        self.element_amount.append(int(amount))
