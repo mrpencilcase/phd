@@ -1,8 +1,8 @@
 import os
 import numpy as np
 
-path_xyz = "/home/lukas/Documents/thesis/Structures/pmCrN.xyz"
-path_save = "/home/lukas/Documents/thesis/Structures/"
+path_xyz = "/home/lukas/documents/thesis/Structures/pmCrN.xyz"
+path_save = "/home/lukas/documents/thesis/Structures/"
 filename = "test.vasp"
 header = "test cell"
 a_latt = [21.5,0, 0]
