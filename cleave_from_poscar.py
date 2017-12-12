@@ -83,13 +83,13 @@ def cleave_cell(cleave_axis, cleave_d, cleave_pos, path_open, path_save):
             file.write("{:7.4f}  {:7.4f}  {:7.4f}\n".format(pos[0],pos[1],pos[2]))
 
 def main():
-    path_open = "/home/lukas/documents/thesis/Structures/afCrNTiN_1-10.vasp"
+    path_open = "/home/lukas/documents/thesis/upload/cleave/TiN/12sheets/POSCAR"
 
-    dir_save_b = "/home/lukas/documents/thesis/Structures/CrNTiN_cleaved/afCrNTiN_1-10/"
+    dir_save_b = "/home/lukas/documents/thesis/Structures/TiN_cleaved/12_sheets/"
     filename = "POSCAR"
     cleave_axis = "a"
     # length of the created gap (between 1 and number of planes)
-    cleave_positions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]  # position of the gap
+    cleave_positions = [1]  # position of the gap
     cleave_distances = [0.2,0.4,0.6,0.8,1,1.2,1.4,1.6,1.8,2,2.5,3,3.5,4,4.5,5]
 
     for cleave_d in cleave_distances:

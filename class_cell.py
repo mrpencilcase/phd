@@ -2,9 +2,9 @@ class Cell:
 
     def __init__(self,name):
         self.name = name
-        self.lattice = Lattice
+        self.lattice = Lattice()
         self.atoms = []
-        self.elements = []
+        self.elements = Elements()
         self.scale = 1
         self.info = ""
         self.format = ""
@@ -13,11 +13,10 @@ class Cell:
         self.lattice.add_a(a)
         self.lattice.add_b(b)
         self.lattice.add_c(c)
+        return self
 
     def add_atom(self,atom):
         self.atoms.append(atom)
-        if atom.element not in self.elements:
-            self.elements.append(atom.element)
 
     def set_scale(self,scaling_factor):
         self.scale = float(scaling_factor)
@@ -48,7 +47,7 @@ class Atom:
 
     def __init__(self,element,position):
         self.element = element
-        self.position = element
+        self.position = position
 
 class Elements:
     def __init__(self):

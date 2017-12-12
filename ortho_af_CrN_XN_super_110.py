@@ -1,4 +1,4 @@
-import os.path as path
+1import os.path as path
 import numpy as np
 
 path_save = "/home/lukas/Documents/thesis/Structures/"
