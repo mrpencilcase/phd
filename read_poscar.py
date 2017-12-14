@@ -8,7 +8,7 @@ from class_cell import Atom
 import os
 
 def read_poscar(path_open,material):
-    cell =  Cell("test")
+    cell =  Cell(material)
     with open(path_open,"r") as file:
         cell_data = list(file)
 
@@ -29,8 +29,7 @@ def read_poscar(path_open,material):
     k = 0
     at_amount = cell.elements.element_amount[k]
     element = cell.elements.element_type[k]
-
-    for i in range(8,len(cell_data)):
+    for i in range(8,8+sum(cell.elements.element_amount)):
         pos = [float(ent) for ent in cell_data[i].split()]
         if j > at_amount:
             k += 1

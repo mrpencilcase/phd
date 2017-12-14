@@ -9,7 +9,7 @@ import os
 import numpy as np
 
 
-def cleave_cell(cleave_axis, cleave_d, cleave_pos, path_open, path_save):
+def cleave_cell(cleave_axis, cleave_d, cleave_pos, path_open):
     """
     Function to split the supercell at a certain postion
     :param cleave_axis:
@@ -71,16 +71,20 @@ def cleave_cell(cleave_axis, cleave_d, cleave_pos, path_open, path_save):
     for num in ele_num:
         el_num_str.append(str(num))
 
-    with open(path_save,"w") as file:
-        file.write(supercell[0])
-        file.write(supercell[1])
-        for vec in [a_lattice,b_lattice,c_lattice]:
-            file.write("{:7.4f}  {:7.4f}  {:7.4f}\n".format(vec[0], vec[1], vec[2]))
-        file.write("    ".join(ele_type) + "\n")
-        file.write("  ".join(el_num_str) + "\n")
-        file.write("Cartesian\n")
-        for pos in at_pos:
-            file.write("{:7.4f}  {:7.4f}  {:7.4f}\n".format(pos[0],pos[1],pos[2]))
+    file = []
+
+    file.append(supercell[0])
+    file.append(supercell[1])
+    for vec in [a_lattice,b_lattice,c_lattice]:
+        file.append("{:7.4f}  {:7.4f}  {:7.4f}\n".format(vec[0], vec[1], vec[2]))
+    file.append("    ".join(ele_type) + "\n")
+    file.append("  ".join(el_num_str) + "\n")
+    file.append("Cartesian\n")
+    for pos in at_pos:
+        file.append("{:7.4f}  {:7.4f}  {:7.4f}\n".format(pos[0],pos[1],pos[2]))
+    return file
+
+
 
 def main():
     path_open = "/home/lukas/documents/thesis/upload/cleave/TiN/12sheets/POSCAR"
@@ -101,8 +105,8 @@ def main():
 
             filename_full = filename + "_p{}_d{}.vasp".format(cleave_pos,dis_str)
             path_save = os.path.join(dir_save, filename_full)
-            cleave_cell(cleave_axis, cleave_d, cleave_pos,
-                        path_open, path_save)
+            outcar = cleave_cell(cleave_axis, cleave_d, cleave_pos,
+                        path_open)
 
 
 if __name__ == "__main__":

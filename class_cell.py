@@ -57,3 +57,9 @@ class Elements:
     def add_element(self,type,amount):
         self.element_type.append(type)
         self.element_amount.append(int(amount))
+
+class File:
+    def __init__(self,filename,path,data):
+        self.filname = filename
+        self.path = path
+        self.data = data
