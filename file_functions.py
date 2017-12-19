@@ -3,13 +3,14 @@ from os import listdir
 from os.path import isfile, join, exists
 from os import path, makedirs
 from cleave_from_poscar import cleave_cell
-from class_cell import File
+
 
 
 def create_singel_calc(path_create,poscar,incar,potcar,kpoints,submit):
     if not exists(path_create):
         makedirs(path_create)
-    write_file(path_create, kpoints.filname, kpoints.data)
+    write_file(path_create, kpoints.filename, kpoints.data)
+
     write_file(path_create, incar.filename, incar.data)
     write_file(path_create, potcar.filename, potcar.data)
     write_file(path_create, poscar.filename, poscar.data)
@@ -28,3 +29,9 @@ def read_file(path,filename):
         data = list(file)
     file_data = File(filename,path,data)
     return file_data
+
+class File:
+    def __init__(self,filename,path,data):
+        self.filename = filename
+        self.path = path
+        self.data = data

@@ -25,7 +25,7 @@ class Cell:
         self.info = information.rstrip()
 
     def set_format(self,format):
-        self.info = format.rstrip()
+        self.format = format.rstrip()
 
 class Lattice:
 
@@ -60,6 +60,6 @@ class Elements:
 
 class File:
     def __init__(self,filename,path,data):
-        self.filname = filename
+        self.filename = filename
         self.path = path
         self.data = data

@@ -6,6 +6,7 @@ coordinates.
 """
 
 import os
+from read_poscar import read_poscar
 import numpy as np
 
 
@@ -22,17 +23,17 @@ def cleave_cell(cleave_axis, cleave_d, cleave_pos, path_open):
 
     delta_c = 0.8
 
-    # Read the xyz file of the relaxed cell.
-    with open(path_open, "r") as data:
-        supercell = list(data)
-    a_lattice = [float(ent) for ent in supercell[2].split()]
-    b_lattice = [float(ent) for ent in supercell[3].split()]
-    c_lattice = [float(ent) for ent in supercell[4].split()]
-    ele_type = [ent for ent in supercell[5].split()]
-    ele_num = [int(ent) for ent in supercell[6].split()]
-    at_pos = []
-    for i in range(8,len(supercell)):
-        at_pos.append([float(ent) for ent in supercell[i].split()])
+    poscar = read_poscar(path_open,"base cell")
+
+    a_lattice = poscar.lattice.a
+    b_lattice = poscar.lattice.b
+    c_lattice = poscar.lattice.c
+    ele_type = poscar.elements.element_type
+    ele_num = poscar.elements.element_amount
+    at_pos =[]
+    for at in poscar.atoms:
+        at_pos.append(at.position)
+
 
     if cleave_axis == "a":
         axis_index = 0
@@ -45,18 +46,19 @@ def cleave_cell(cleave_axis, cleave_d, cleave_pos, path_open):
         c_lattice[axis_index] += cleave_d
 
     c_pos = []
+
     for pos in at_pos:
         if pos[axis_index] not in c_pos:
             c_pos.append(pos[axis_index])
     c_pos.sort()
-    print((c_pos))
+
     i = 0
     while i < len(c_pos)-1:
         if c_pos[i+1] <= c_pos[i]+delta_c:
             c_pos.pop(i+1)
             i = -1
         i += 1
-    print(c_pos)
+
     if cleave_pos > len(c_pos):
         print("The postion of the cleave is not in the super cell. \n"
               "Please change the postions and start the script again."
@@ -73,8 +75,8 @@ def cleave_cell(cleave_axis, cleave_d, cleave_pos, path_open):
 
     file = []
 
-    file.append(supercell[0])
-    file.append(supercell[1])
+    file.append("{}\n".format(poscar.info))
+    file.append("{}\n".format(str(poscar.scale)))
     for vec in [a_lattice,b_lattice,c_lattice]:
         file.append("{:7.4f}  {:7.4f}  {:7.4f}\n".format(vec[0], vec[1], vec[2]))
     file.append("    ".join(ele_type) + "\n")
