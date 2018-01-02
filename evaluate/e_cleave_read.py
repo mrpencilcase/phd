@@ -11,7 +11,7 @@ from read_poscar import read_poscar
 
 def main():
     mat = "CrN_TiN"
-    path_parent_open = "/home/lukas/documents/thesis/result_vasp/cleave/TiN/16sheets/1/"
+    path_parent_open = "/home/lukas/documents/thesis/result_vasp/cleave/TiN/12sheets_2/plane_1/"
     path_poscar_rel = ""
     sub_folders = [f for f in listdir(path_parent_open) if
      isdir(join(path_parent_open, f))]
