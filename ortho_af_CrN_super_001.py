@@ -21,33 +21,33 @@ a_orth = [np.linalg.norm(a + b), 0, 0]
 b_orth = [0, np.linalg.norm((a - b) / 2), 0]
 c_orth = [0, 0, c[2][0]]
 
+a_orth = [5.74049, 0, 0]
+b_orth = [0, 2.87044, 0]
+c_orth = [0, 0, 4.05886]
 
 x_m_a_1 = np.array([[0],[0],[1],[1]])
 y_m_a_1 = np.array([[0],[1],[0],[1]])
 z_m_a_1 = np.array([[1],[1],[1],[1]])
 
-
-x_m_a_2 = np.array([[0], [0]])
-y_m_a_2 = np.array([[0.5], [0.5]])
+x_m_a_2 = np.array([[0.5], [0.5]])
+y_m_a_2 = np.array([[0], [1]])
 z_m_a_2 = np.array([[1], [1]])
 
-x_n_a = np.array([[0.5], [0.5]])
-y_n_a = np.array([[0.25], [0.75]])
+x_n_a = np.array([[0.25], [0.75]])
+y_n_a = np.array([[0.5], [0.5]])
 z_n_a = np.array([[1], [1]])
 
-
-
-x_m_b_1 = np.array([[0.5]])
-y_m_b_1 = np.array([[0.25]])
+x_m_b_1 = np.array([[0.75]])
+y_m_b_1 = np.array([[0.5]])
 z_m_b_1 = np.array([[1]])
 
-x_m_b_2 = np.array([[0.5]])
-y_m_b_2 = np.array([[0.75]])
+x_m_b_2 = np.array([[0.25]])
+y_m_b_2 = np.array([[0.5]])
 z_m_b_2 = np.array([[1]])
 
-x_n_b = np.array([[0.25], [0.25], [0.75], [0.75]])
-y_n_b = np.array([[1], [1], [1], [1]])
-z_n_b = np.array([[1], [1], [1], [1]])
+x_n_b = np.array([[0], [0], [1], [1], [0.5],[0.5]])
+y_n_b = np.array([[0], [1], [0], [1],[0],[1]])
+z_n_b = np.array([[1], [1], [1], [1],[1],[1]])
 
 index = 1
 
@@ -85,7 +85,7 @@ while index <= (n_sheets * 2):
         pos_add.extend(np.ndarray.tolist(np.concatenate((x_n_b, y_n_b, z),
                                                         1)))
         shift_tot += shift_half_plane
-        index += 1
+        index += 2
 
     else:
 
@@ -120,14 +120,12 @@ while index <= (n_sheets * 2):
 z = z_m_a_1 * shift_tot
 pos_sp_1.extend(np.ndarray.tolist(np.concatenate((x_m_a_1, y_m_a_1, z)
                                                  , 1)))
-
 z = z_m_a_2 * shift_tot
 pos_sp_2.extend(np.ndarray.tolist(np.concatenate((x_m_a_2, y_m_a_2, z)
                                                  , 1)))
 z = z_n_a * shift_tot
 pos_add.extend(np.ndarray.tolist(np.concatenate((x_n_a, y_n_a, z),
                                                 1)))
-
 print(shift_tot)
 i = 0
 while i in range(len(pos_sp_1)):

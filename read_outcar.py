@@ -20,9 +20,10 @@ def read_tot_en(path_open,pos):
                 elif pos == "all":
                     tot_en.append(float(line_split[4]))
     else:
-       # print("Calculation did not finish")
+        print("Calculation did not finish")
+        print(path_open)
         for line in outcar:
-            if "free  energy   TOTEN" in line:
+            if "free energy    TOTEN" in line:
                 line_split = [ent for ent in line.split()]
                 if pos == "first":
                     tot_en.append(float(line_split[4]))
@@ -32,7 +33,7 @@ def read_tot_en(path_open,pos):
                     tot_en.append(float(line_split[4]))
                 elif pos == "all":
                     tot_en.append(float(line_split[4]))
-
+        print(tot_en)
     return tot_en
 
 

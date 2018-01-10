@@ -1,6 +1,6 @@
 """
-Script to read the energies and distantces of cleave calculations in the gibven
-floder. Creates file with the distances the total energies and the relative energies
+Script to read the energies and distantces of cleave calculations in the given
+folder. Creates file with the distances the total energies and the relative energies
 per area
 """
 from os.path import isdir,join
@@ -11,7 +11,7 @@ from read_poscar import read_poscar
 
 def main():
     mat = "CrN_TiN"
-    path_parent_open = "/home/lukas/documents/thesis/result_vasp/cleave/TiN/12sheets_2/plane_1/"
+    path_parent_open = "/home/lukas/documents/thesis/result_vasp/cleave/afCrN_TiN_1-10/plane_6/"
     path_poscar_rel = ""
     sub_folders = [f for f in listdir(path_parent_open) if
      isdir(join(path_parent_open, f))]
