@@ -2,10 +2,10 @@ import os.path as path
 import numpy as np
 
 path_save = "/home/lukas/documents/thesis/Structures/"
-filename = "TiN_1-10_16sheets"
+filename = "CrN_TiN_1-10_16sheets"
 struct_name = "TiN 1-10."
-atom_spin1 = "Ti"
-atom_spin2 = "Ti"
+atom_spin1 = "Cr"
+atom_spin2 = "Al"
 atom_add = "N"
 atom_metal = "Ti"
 n_sheets = 8 # Number of planes. Has to be an even number.
@@ -16,7 +16,7 @@ cleave_pos = [18] # Number of plane after which the cell
 for cleave_index in cleave_pos:
 
 
-    a = np.array([[3.65528], [0], [0]])
+    a = np.array([[3.55528], [0], [0]])
     b = np.array([[0], [3.85528], [0]])
     c = np.array([[0], [0], [4.25528]])
     # orthorombic lattice parameters
@@ -24,9 +24,9 @@ for cleave_index in cleave_pos:
     b_orth = [0, np.linalg.norm((a - b) / 2), 0]
     c_orth = [0, 0, c[2][0]]
 
-    a_orth = [3.4, 0, 0]
+    a_orth = [5.74, 0, 0]
     b_orth = [0, 2.8, 0]
-    c_orth = [0, 0, 4.25528]
+    c_orth = [0, 0, 4.0588]
 
 
     x_m_a = np.array([[1],[1],[1],[1]])
@@ -53,7 +53,7 @@ for cleave_index in cleave_pos:
     pos_met = []
     pos_add = []
     shift_tot = 0
-    shift_half_plane = a_orth[0] / 2
+    shift_half_plane = a_orth[0] / 4
 
     while index <= (n_sheets * 2):
 

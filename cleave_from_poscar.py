@@ -89,7 +89,7 @@ def cleave_cell(cleave_axis, cleave_d, cleave_pos, path_open):
 
 
 def main():
-    path_open = "/home/lukas/documents/thesis/upload/cleave/TiN/12sheets/POSCAR"
+    path_open = "/home/lukas/documents/thesis/result_vasp/relax/CrNTiN/CrN_TiN_110/relax_af_CrN_TiN_110/"
 
     dir_save_b = "/home/lukas/documents/thesis/Structures/TiN_cleaved/12_sheets/"
     filename = "POSCAR"

@@ -4,9 +4,11 @@ from scipy.optimize import curve_fit
 from os.path import join
 
 def main():
+    path = "/home/lukas/documents/thesis/result_vasp/cleave/afCrN_TiN_1-10/plane_6/"
     path = "/home/lukas/documents/thesis/result_vasp/cleave/TiN/16sheets/1/"
     path = "/home/lukas/documents/thesis/result_vasp/cleave/TiN/12sheets_2/plane_1/"
-    path = "/home/lukas/documents/thesis/result_vasp/cleave/afCrN_TiN_1-10/plane_6/"
+    path = "/home/lukas/documents/thesis/result_vasp/vsc3/CrN_TiN/cleave/afCrN_TiN_1-10/plane_6/"
+
     path_open = join(path,"e_cleave.dat")
     with open(path_open,"r") as file:
         data = list(file)
@@ -57,6 +59,7 @@ def main():
 
     # Plot
     lw = 1
+    plt.ion()
     fig, ax = plt.subplots()
     ax.plot(L_crit,e_dif_plot,"--k",linewidth = lw)
     lns2 = ax.plot(x,e_dif_plot,"+k",label = r"$E_x$ DFT")
@@ -79,9 +82,8 @@ def main():
     labs = [l.get_label() for l in lns]
     leg = ax.legend(lns, labs,bbox_to_anchor=(1,0.35))
     leg.get_frame().set_alpha(1)
+    plt.draw()
     plt.savefig(join(path,"fit.pdf"))
-    plt.show()
-    plt.close()
 
 
 

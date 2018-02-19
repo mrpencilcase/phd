@@ -9,10 +9,15 @@ n_at = 3
 x = []
 e_cleave = []
 
-with open(path_open,"r") as file:
-    data = list(file)
+#with open(path_open,"r") as file:
+#    data = list(file)
 
+E_cleave = [1]*10
+for i in range(len(E_cleave)):
+    E_cleave[i] = 0.2 * np.random.rand() + -0.1 + E_cleave[i]
+    x.append(i)
 
+print(E_cleave)
 
 lw = 1
 y_lable1 = "label 1"
@@ -25,7 +30,7 @@ ax1.plot(x,E_cleave,"+-k",mfc='none',linewidth = lw)
 ax1.xaxis.grid(linestyle="--")
 ax1.set_xticks(x)
 ax1.xaxis.tick_top()
-ax1.set_ylabel(ylable1)
+ax1.set_ylabel(y_lable1)
 
 ax2 = ax1.twinx()
 ax2.plot(x,d1,"o-r",mfc='none',linewidth = lw)
