@@ -1,3 +1,8 @@
+"""
+Analyze the the OUTCAR and CONTCAR files of cleavage simulations.
+Results are written into an output file.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
@@ -8,6 +13,7 @@ def main():
     path = "/home/lukas/documents/thesis/result_vasp/cleave/TiN/16sheets/1/"
     path = "/home/lukas/documents/thesis/result_vasp/cleave/TiN/12sheets_2/plane_1/"
     path = "/home/lukas/documents/thesis/result_vasp/vsc3/CrN_TiN/cleave/afCrN_TiN_1-10/plane_6/"
+    path = "/home/lukas/Documents/thesis/result_vasp/vsc3/CrN_TiN/cleave/1-10/plane_4/"
 
     path_open = join(path,"e_cleave.dat")
     with open(path_open,"r") as file:

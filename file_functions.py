@@ -35,3 +35,26 @@ class File:
         self.filename = filename
         self.path = path
         self.data = data
+
+# add, change or delete flags from the incar file
+def modifiy_incar(path_open, flag, value):
+    with open(join(path_open,"INCAR"),"r") as file:
+        incar = list(file)
+        mod = False
+
+        #Change or delete flag
+        for i in range(len(incar)):
+            if flag in incar[i]:
+                if value != "":
+                    incar[i] = flag + " = " + value + "\n"
+                    mod = True
+                else:
+                    incar.pop(i)
+                    mod = True
+        if mod == False:
+            incar.append(flag + " = " + value + "\n")
+
+    with open(join(path_open,"INCAR"),"w") as file:
+        for line in incar:
+            file.write(line)
+

@@ -3,14 +3,17 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from os.path import join
 
+V = [76333, 76691, 77072, 77485, 77901, 78307, 78703, 79091]
+T = [0, 200.3 ,400.3, 601.6, 799.7, 1000.7, 1200.5, 1398]
+V_s = [23.6, 12.1, 19.7, 16.6, 26.5, 21.5, 30.7, 24.8]
+
+
+V = [ 76691, 77072, 77485, 77901, 78307, 78703, 79091]
+T = [ 200.3 ,400.3, 601.6, 799.7, 1000.7, 1200.5, 1398]
+V_s = [12.1, 19.7, 16.6, 26.5, 21.5, 30.7, 24.8]
 
 
 
-V = [ 76701, 77103, 77474, 77904, 78313]
-T = [ 200 ,400, 600, 800, 1000]
-
-V = [76337, 76701, 77103, 77474, 77904, 78313]
-T = [0, 200 ,400, 600, 800, 1000]
 a_lin_lit = 8.9/1000000
 a_v_lit = 3*a_lin_lit
 
@@ -30,11 +33,10 @@ V_fit = p_fit[1] + p_fit[0]*x
 lw = 1
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.plot(T,V,"-+k",linewidth = lw,label = "Molecular Dynamics")
+ax.errorbar(T,V,yerr=V_s,fmt="-+k",linewidth = lw,label = "Molecular Dynamics")
 ax.plot(x,V_fit,"-r",linewidth = lw,label = "Fit")
 ax.plot(x,V_lit,"-g",linewidth = lw,label = "Literature")
-ax.set_ylabel("Volume")
-ax.set_xlabel("Temperature [K]")
-ax.text(400, 77474, "test text")
+ax.set_ylabel(r"Volume ($\AA³$)")
+ax.set_xlabel("Temperature (K)")
 plt.legend()
 plt.show()
