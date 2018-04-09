@@ -3,7 +3,7 @@ from os import listdir
 from os.path import isfile, join, exists
 from os import path, makedirs
 from cleave_from_poscar import cleave_cell
-
+import read_poscar as rp
 
 
 def create_singel_calc(path_create,poscar,incar,potcar,kpoints,submit):
@@ -71,10 +71,10 @@ def create_potcar(path_open,filename):
                     outfile.write(line)
 
 # read a textfile and convert it to a list element
-def read_file(path_open):
-    with open(path_open,"r") as file:
-        data = list(file)
-    return data
+#def read_file(path_open):
+#    with open(path_open,"r") as file:
+#        data = list(file)
+#    return data
 
 def contegate_files(file_list,path_save):
     with open(path_save, 'wb') as wfd:
@@ -94,8 +94,10 @@ def cleave_cell(cleave_axis, cleave_d, cleave_pos, path_open):
     """
     delta_c = 0.8
 
-    poscar = read_poscar(path_open,"base cell")
+    poscar = rp.read_poscar(path_open,"base cell")
 
+    if poscar.format == "Direct":
+        poscar.switch_format()
     a_lattice = poscar.lattice.a
     b_lattice = poscar.lattice.b
     c_lattice = poscar.lattice.c
@@ -150,8 +152,8 @@ def cleave_cell(cleave_axis, cleave_d, cleave_pos, path_open):
     file.append("{}\n".format(str(poscar.scale)))
     for vec in [a_lattice,b_lattice,c_lattice]:
         file.append("{:7.4f}  {:7.4f}  {:7.4f}\n".format(vec[0], vec[1], vec[2]))
-    file.append("    ".join(ele_type) + "\n")
-    file.append("  ".join(el_num_str) + "\n")
+    file.append(" ".join("{:3s}".format(t) for t in ele_type) + "\n")
+    file.append(" ".join("{:3s}".format(t) for t in el_num_str) + "\n")
     file.append("Cartesian\n")
     for pos in at_pos:
         file.append("{:7.4f}  {:7.4f}  {:7.4f}\n".format(pos[0],pos[1],pos[2]))

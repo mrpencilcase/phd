@@ -85,8 +85,9 @@ def get_spins(path_open):
     for index, line in enumerate(outcar):
         if "magnetization (x)" in line:
             spins = []
-            i = index+ 4
+            i = index+ 5
             while "-----" not in outcar[i]:
-                spins.append([float(spin) for spin in line.split()][4])
+                spins.append([float(spin) for spin in outcar[i].split()][4])
+                i += 1
             moments.append(spins)
     return moments
