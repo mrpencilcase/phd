@@ -1,0 +1,99 @@
+"""
+Skript to make cleave calculations from an relaxed OUTCAR and POSCAR file
+Checks if the realxed cell has any moments and if yes transfers them to the
+new calculation as starting moments
+"""
+import file_functions as ff
+import read_outcar as ro
+from os.path import join
+from shutil import copyfileobj
+
+def make_cleave(path_base, cleave_planes, cleave_dist, cleave_direction):
+
+    # check the OUTACR for magnetic moments
+    spins = ro.get_spins(join(path_base,"OUTCAR_relaxed"))
+    if not spins:
+        magnetic = False
+    else:
+        magnetic = True
+
+    # Create calculations without modification
+    if magnetic == False:
+        ff.create_potcar(path_base,"POSCAR_relaxed")
+
+    if magnetic == True:
+        moments = ro.get_spins(join(path_base,"OUTCAR_relaxed"))[-1]
+        poscar = ff.read_file(join(path_base,"POSCAR_relaxed"))
+        specis = [ent for ent in poscar[5].split()]
+        amount = [float(ent) for ent in poscar[6].split()]
+        # Create lines for POSCAR and INCAR and file list for POTCAR
+        i = 0
+        ind_ele = []
+        potcar_filelist = []
+        for ele, num in zip(specis, amount):
+            ind_ele.extend(ele*num)
+            potcar_filelist.extend(join(path_base,"POTCAR_"+ele)*num)
+
+        moment_line = ""
+        for ent in spins:
+            moment_line = moment_line + " 1*" + ent
+
+        #POTCAR
+        ff.contegate_files(potcar_filelist,join(path_base,"POTCAR"))
+        # POSCAR
+        poscar[5] = " ".join(ind_ele) + "\n"
+        poscar[6] = " ".join(str(spins)) + "\n"
+        with open(join(path_base,"POSCAR"),"w") as file:
+            for line in poscar:
+                file.write(line)
+
+        # INCAR
+        ff.modifiy_incar(join(path_base,"INCAR"),"MAGMOM",)
+        ff.modifiy_incar(join(path_base,"INCAR"),"LORBIT","11")
+        ff.modifiy_incar(join(path_base,"INCAR"),"ISPIN","2")
+
+    # Create the individuall calcultions from the created input files
+
+
+    incar = ff.read_file(join(path_base,"INCAR"))
+    potcar = ff.read_file(join(path_base,"POTCAR"))
+    kpoints = ff.read_file(join(path_base,"KPOINTS"))
+    run = ff.read_file(join(path_base,"check.slrm"))
+
+    for plane in cleave_planes:
+
+    # make directory
+    name_dir_plane = "plane_{}".format(plane)
+    path_dir_plane = join(path_base,name_dir_plane)
+    submit_data = []
+
+    if not ff.exists(path_dir_plane):
+        ff.makedirs(path_dir_plane)
+
+    # create folder for each distance with the right files in it
+    for dist in cleave_dist:
+        poscar = ff.File("POSCAR","",ff.cleave_cell(cleave_direction,dist,plane,
+                                                    join(path_base,"POSCAR")))
+        print(poscar.data[0])
+        name_dir_cleave = "d_cleave_{}".format(dist)
+        path_dir_cleave = join(path_dir_plane,name_dir_cleave)
+        ff.create_singel_calc(path_dir_cleave,
+                              poscar,incar,potcar,kpoints,run)
+
+        submit_data.append(name_dir_cleave)
+
+    # create submission file for the plane
+    with open(join(path_dir_plane,"job_sub.sh"),"w") as file:
+        for ent in submit_data:
+            file.write("cd {}\n".format(ent))
+            file.write("sbatch check.slrm\n")
+            file.write("cd ..\n")
+
+if __name__ == "__main__":
+
+    path_dir = "/home/lukas/Documents/thesis/test_stuff/"
+    cleave_planes = ["5","6","7"]
+    cleave_dist = cleave_dist =[ 0.1 ,0.15, 0.2, 0.25, 0.3 , 0.4, 0.5,  0.8, 1,
+                                 1.5, 2, 2.5, 3, 4, 5, 7]
+    cleave_direction = "a"
+    make_cleave(path_dir,cleave_planes, cleave_dist, cleave_direction)

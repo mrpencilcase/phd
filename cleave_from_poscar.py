@@ -20,7 +20,6 @@ def cleave_cell(cleave_axis, cleave_d, cleave_pos, path_open):
     :param path_save: Path where the file should be stored (incl. filename)
     :return: None!! A file is created at the postion of path_save
     """
-
     delta_c = 0.8
 
     poscar = read_poscar(path_open,"base cell")
