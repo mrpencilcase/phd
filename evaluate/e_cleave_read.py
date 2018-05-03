@@ -10,7 +10,7 @@ from read_poscar import read_poscar
 
 def main():
     mat = "CrN_TiN"
-    path_parent_open = "/home/lukas/Documents/thesis/result_vasp/vsc3/CrN_TiN/cleave/1-10/plane_8/"
+    path_parent_open = "/home/lukas/Documents/work/dft/vasp_results/CrN_TiN/cleave/001/af/plane_5/"
     path_poscar_rel = ""
     sub_folders = [f for f in listdir(path_parent_open) if
      isdir(join(path_parent_open, f))]
@@ -18,17 +18,17 @@ def main():
     e_x = []
     x_c = []
     cell_relaxed = read_poscar(join(path_parent_open,"POSCAR"),mat)
-    area = cell_relaxed.lattice.b[1] * cell_relaxed.lattice.c[2]
+    area = cell_relaxed.lattice.b[1] * cell_relaxed.lattice.a[0]
     print("unsorted")
     for folder in sub_folders:
         path = join(path_parent_open,folder)
         tot_en = read_tot_en(join(path,"OUTCAR"),"last")
         cell_new = read_poscar(join(path,"POSCAR"),mat)
         if tot_en:
-            x_c.append(cell_new.lattice.a[0]-cell_relaxed.lattice.a[0])
+            x_c.append(cell_new.lattice.c[2]-cell_relaxed.lattice.c[2])
             e_x.append(tot_en[0]/n_at)
 
-            print("{}   {}".format(tot_en[0] / n_at,cell_new.lattice.a[0] - cell_relaxed.lattice.a[0]))
+            print("{}   {}".format(tot_en[0] / n_at,cell_new.lattice.c[2] - cell_relaxed.lattice.c[2]))
     e_x.sort(key=dict(zip(e_x, x_c)).get)
     x_c.sort()
 

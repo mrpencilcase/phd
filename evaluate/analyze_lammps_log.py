@@ -3,10 +3,11 @@ from os import path
 import matplotlib.pyplot as plt
 import os
 
-def read_lammps(data_struct,fixed,inspect,path,chunk_size):
+def read_lammps(data_struct,fixed,inspect,path, file,chunk_size):
     key_phrase = data_struct
 
-    path_open = path
+    path_open = os.path.join(path,file)
+
     #path_open = "/home/lukas/Documents/thesis/lammps/whathappens/log.lammps"
 
     elements = [ent for ent in key_phrase.split()]
@@ -93,7 +94,7 @@ def read_lammps(data_struct,fixed,inspect,path,chunk_size):
     # print(fixed_chunks_std)
 
     #Plot
-    plot = False
+    plot = True
     if plot == True:
         linewidth = 1
         fig = plt.figure()
@@ -108,7 +109,7 @@ def read_lammps(data_struct,fixed,inspect,path,chunk_size):
         ax2=fig.add_subplot(222)
         ax2.plot(step_number,inspect_data,"-r",lw=linewidth)
         ax2.set_xlabel("Step Number")
-        ax2.set_ylabel(r" Volume ($\AA³$)")
+        ax2.set_ylabel(r" Ground State Energy ($eV$)")
 
         ax3=fig.add_subplot(223)
         ax3.plot(fixed_chunks_mean,"-b",lw=linewidth)
@@ -118,9 +119,10 @@ def read_lammps(data_struct,fixed,inspect,path,chunk_size):
         ax4=fig.add_subplot(224)
         ax4.plot(inspect_chunks_mean,"-r",lw=linewidth)
         plt.suptitle("Relexation of TiN at {}K".format(np.around(fixed_mean)))
-        ax4.set_ylabel(r"Mean Volume ($\AA³$)")
+        ax4.set_ylabel(r"Ground State Energy($eV$)")
         ax4.set_xlabel("Chunk number")
         plt.show()
+    #    plt.savefig(os.path.join(path,"energy.pdf"))
 
 
 def get_statistics(data):
@@ -132,13 +134,11 @@ def get_statistics(data):
 
 def main():
 
-    path = "/home/lukas/Documents/thesis/lammps/test_pot/thermal_expansion/"
-    files = ["log.1","log.2","log.3","log.4","log.5","log.6","log.7","log.8"]
+    path = "/home/lukas/Documents/work/md/TiN/surface energy/100/"
+    files = ["base/log.lammps","cleaved/log.lammps"]
     key_phrase = "Step Time Temp Volume TotEng PotEng KinEng Enthalpy Pxx Pyy Pzz"
-
     for file in files:
-        path_file = os.path.join(path,file)
-        read_lammps(key_phrase,"Temp","Volume",path_file,1)
+        read_lammps(key_phrase,"Temp","TotEng",path, file,10)
 
 
 

@@ -39,7 +39,7 @@ def clear_folder(root_path, delete_custom = []):
     print("Freed disk space: {} mb".format((size_start-size_end)/1000000))
 
 def main():
-    path = "/home/lukas/Documents/thesis/"
+    path = "/home/lukas/Documents/work/dft/vasp_results/"
     clear_folder(path)
 
 if __name__ =="__main__":

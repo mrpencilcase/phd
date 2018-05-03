@@ -69,11 +69,14 @@ def finished_check(path_open):
     for line in reversed(outcar):
         if "General timing and accounting informations for this job:" in line:
             finished = True
+            print("Calculation has ended")
             break
         if i > 20:
             break
         i += 1
-
+    if finished == False:
+        print("Calculation has not ended")
+        print(path_open)
     return finished
 
 def get_spins(path_open):
@@ -85,7 +88,7 @@ def get_spins(path_open):
     for index, line in enumerate(outcar):
         if "magnetization (x)" in line:
             spins = []
-            i = index+ 5
+            i = index+ 4
             while "-----" not in outcar[i]:
                 spins.append([float(spin) for spin in outcar[i].split()][4])
                 i += 1

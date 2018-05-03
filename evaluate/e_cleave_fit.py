@@ -6,14 +6,11 @@ Results are written into an output file.
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
-from os.path import join
+from os.path import join, dirname, basename
 
 def main():
-    path = "/home/lukas/documents/thesis/result_vasp/cleave/afCrN_TiN_1-10/plane_6/"
-    path = "/home/lukas/documents/thesis/result_vasp/cleave/TiN/16sheets/1/"
-    path = "/home/lukas/documents/thesis/result_vasp/cleave/TiN/12sheets_2/plane_1/"
-    path = "/home/lukas/documents/thesis/result_vasp/vsc3/CrN_TiN/cleave/afCrN_TiN_1-10/plane_6/"
-    path = "/home/lukas/Documents/thesis/result_vasp/vsc3/CrN_TiN/cleave/1-10/plane_4/"
+
+    path = "/home/lukas/Documents/work/dft/vasp_results/CrN_TiN/cleave/1-10/af/plane_8/"
 
     path_open = join(path,"e_cleave.dat")
     with open(path_open,"r") as file:
@@ -33,7 +30,7 @@ def main():
     e_c = fit[0][0]*scale_unit
     l = fit[0][1]
     print(fit)
-    x_plt = np.linspace(0,5,100)
+    x_plt = np.linspace(0,10,100)
     y_plt =  E_x(x_plt,e_c,l)
     d_y = []
     d_y_x = []
@@ -45,11 +42,11 @@ def main():
     E_crit = E_x(l,e_c,l)
     E_cleave = [e_c] * 100
     L_crit = [l] * len(e_dif)
-    s_c = e_c/(l*np.e)
+    s_c = (e_c*10)/(l*np.e)
     e_dif_plot = [i* scale_unit for i in e_dif]
 
 
-
+    foldername = basename(dirname(path))
 
 
     path_save = join(path,"fit.dat")
@@ -62,7 +59,7 @@ def main():
     print("lcrit: {}".format(l))
     print("Scrit: {}".format(e_c/(l*np.e)))
 
-
+    print(foldername)
     # Plot
     lw = 1
     plt.ion()
@@ -72,7 +69,7 @@ def main():
     lns1 = ax.plot(x_plt,y_plt,"-k", linewidth = lw,label = r"$E_x$ fit")
 
     #plt.plot(l,E_crit,"+r", label = "E")
-    plt.title(r"E$_{\mathrm{cleave}}$ (1$\bar{1}$0) TiN (12 sheets)")
+    plt.title(r"E$_{\mathrm{cleave}}$ $(1\bar{1}0) CrN/TiN anti ferro "+foldername)
     ax.set_xlabel(r"Gap Distance [$\AA$]")
     ax.set_ylabel(r"E$_{\mathrm{Strain}}$ [$J/m²$]")
     ax.text(l+0.1*l,0.83*max(e_dif),r"l$_{\mathrm{crit}}$"+" = {}".format(np.around(l,3)))
@@ -90,8 +87,7 @@ def main():
     leg.get_frame().set_alpha(1)
     plt.draw()
     plt.savefig(join(path,"fit.pdf"))
-
-
+    plt.show()
 
 def E_x(x,E_c,l):
     return E_c*(1-(1+x/l)*np.exp(-x/l))

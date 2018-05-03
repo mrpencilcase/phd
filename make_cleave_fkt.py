@@ -15,7 +15,7 @@ def make_cleave_calc(path_base, cleave_planes, cleave_dist, cleave_direction):
         magnetic = False
     else:
         magnetic = True
-
+    print("Magnetic: {}".format(magnetic))
     # Create calculations without modification
     if not magnetic:
         ff.create_potcar(path_base,"POSCAR_relaxed")
