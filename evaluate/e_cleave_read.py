@@ -10,7 +10,8 @@ from read_poscar import read_poscar
 
 def main():
     mat = "CrN_TiN"
-    path_parent_open = "/home/lukas/Documents/work/dft/vasp_results/CrN_TiN/cleave/001/af/plane_5/"
+    path_parent_open = "/home/lukas/Documents/work/dft/vasp_results/CrN_TiN/cleave/001/a1452" \
+                       "f/plane_5/"
     path_poscar_rel = ""
     sub_folders = [f for f in listdir(path_parent_open) if
      isdir(join(path_parent_open, f))]
